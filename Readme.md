@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
-* Студент: [Artem Minaliev](https://up.htmlacademy.ru/javascript/28/user/839379).
-* Наставник: `Неизвестно`.
+- Студент: [Artem Minaliev](https://up.htmlacademy.ru/javascript/28/user/839379).
+- Наставник: `Роман Марченко`.
 
 ---
 
