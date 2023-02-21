@@ -1,6 +1,6 @@
 // 1. Проверка длины строки
 function lengthCheck(string, symbolQuantity) {
-  return string.length >= symbolQuantity;
+  return string.length <= symbolQuantity;
 }
 
 lengthCheck('Всем привет! Меня зовут Артем', 11);
