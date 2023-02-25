@@ -1,7 +1,5 @@
 // 1. Проверка длины строки
-function lengthCheck(string, symbolQuantity) {
-  return string.length <= symbolQuantity;
-}
+const lengthCheck = (string, symbolQuantity) => string.length <= symbolQuantity;
 
 lengthCheck('Всем привет! Меня зовут Артем', 11);
 lengthCheck('Всем привет! Меня зовут Артем', 29);
@@ -9,11 +7,11 @@ lengthCheck('Всем привет! Меня зовут Артем', 31);
 
 
 // 2. Проверка на палиндром
-function isPalindromCheck(string) {
+const isPalindromCheck = (string) => {
   const newString = string.toLowerCase().replaceAll(' ', '');
   const reverseString = newString.split('').reverse().join('');
   return newString === reverseString;
-}
+};
 
 isPalindromCheck('топот');
 isPalindromCheck('ДовОд');
@@ -22,7 +20,7 @@ isPalindromCheck('Лёша на полке клопа нашёл');
 
 
 // 3. Извлечение чисел из строки
-function valueToNumber(value) {
+const valueToNumber = (value) => {
   const string = String(value).replaceAll(' ', '');
   let result = '';
   for(let i = 0; i < string.length; i++) {
@@ -32,7 +30,7 @@ function valueToNumber(value) {
     }
   }
   return result === '' ? NaN : +result;
-}
+};
 
 valueToNumber('2023 год'); // Результат: число 2023
 valueToNumber('ECMAScript 2022'); // Результат: число 2022
@@ -44,7 +42,7 @@ valueToNumber(1.5); // Результат: число 15
 
 
 // 4. Модифицирование строки
-function modifyString(string, symbolQuantity, modifier) {
+const modifyString = (string, symbolQuantity, modifier) => {
   if(string.length >= symbolQuantity) {
     return string;
   }
@@ -61,7 +59,7 @@ function modifyString(string, symbolQuantity, modifier) {
     }
     accumulator = newString + accumulator;
   }
-}
+};
 
 modifyString('1', 2, '0'); // Результат: строка '01'
 modifyString('1', 4, '0'); // Результат: строка '0001'
