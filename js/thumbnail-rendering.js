@@ -1,4 +1,4 @@
-import {getPhotoObjectsArray} from './data.js';
+import {createPhotoObjectsArray} from './data.js';
 
 const pictureTemplateElement = document.querySelector('#picture')
   .content
@@ -6,7 +6,7 @@ const pictureTemplateElement = document.querySelector('#picture')
 // console.log(pictureTemplate)
 const picturesElement = document.querySelector('.pictures');
 // console.log(pictures)
-const photoObjectsArray = getPhotoObjectsArray();
+const photoObjectsArray = createPhotoObjectsArray();
 
 const PhotoObjectsFragment = document.createDocumentFragment();
 
