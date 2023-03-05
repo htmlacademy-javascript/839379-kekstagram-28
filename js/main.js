@@ -1,3 +1,1 @@
-import {getArrayPhotoObjects} from './data.js';
-
-getArrayPhotoObjects();
+import './thumbnail-rendering.js';
