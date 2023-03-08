@@ -3,9 +3,9 @@ import {createPhotoObjectsArray} from './data.js';
 const pictureTemplateElement = document.querySelector('#picture')
   .content
   .querySelector('.picture');
-// console.log(pictureTemplate)
+
 const picturesElement = document.querySelector('.pictures');
-// console.log(pictures)
+
 const photoObjectsArray = createPhotoObjectsArray();
 
 const PhotoObjectsFragment = document.createDocumentFragment();
@@ -19,3 +19,5 @@ photoObjectsArray.forEach(({url, likes, comments})=> {
 });
 
 picturesElement.append(PhotoObjectsFragment);
+
+export {picturesElement, photoObjectsArray};
