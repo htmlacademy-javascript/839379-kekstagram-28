@@ -37,7 +37,7 @@ const MAX_NUMBER = 25;
 const MAX_COMENT_ID_NUMBER = 100;
 const MAX_AVATAR_QUANTITY = 6;
 const MAX_MESSAGE_QUANTITY = 2;
-const MAX_COMMENT_QUANTITY = 7;
+const MAX_COMMENT_QUANTITY = 14;
 
 const getPhotoId = createUniqueInteger(MIN_NUMBER, MAX_NUMBER);
 const getUrlPhoto = createUniqueInteger(MIN_NUMBER, MAX_NUMBER);
@@ -61,6 +61,6 @@ const createPhotoObject = () =>
     comments: Array.from({length:getRandomInteger(MIN_NUMBER, MAX_COMMENT_QUANTITY)}, createComment),
   });
 
-const createPhotoObjectsArray = () => Array.from({length:PHOTO_OBJECTS_QUANTITY}, createPhotoObject);
+const createPhotoObjects = () => Array.from({length:PHOTO_OBJECTS_QUANTITY}, createPhotoObject);
 
-export {createPhotoObjectsArray};
+export {createPhotoObjects};
