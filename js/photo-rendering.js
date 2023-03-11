@@ -6,10 +6,12 @@ const bigPictureElement = document.querySelector('.big-picture');
 const pictureCancelElement = bigPictureElement.querySelector('#picture-cancel');
 const bigPictureImgElement = bigPictureElement.querySelector('.big-picture__img img');
 const likesCountElement = bigPictureElement.querySelector('.likes-count');
-const commentsCountElement = bigPictureElement.querySelector('.comments-count');
 const socialCaptionElement = bigPictureElement.querySelector('.social__caption');
 const socialCommentsElement = bigPictureElement.querySelector('.social__comments');
 const socialCommentElement = socialCommentsElement.querySelector('.social__comment');
+const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
+const commentsCountElement = bigPictureElement.querySelector('.social__comment-count');
+commentsCountElement.innerHTML = '';
 
 const renderBigPhoto = () => {
   const onBigPictureKeydown = (evt) => {
@@ -39,23 +41,35 @@ const renderBigPhoto = () => {
     const thumbnailPointer = currentThumbnail.id;
     const {url, description, likes, comments} = photoObjects[thumbnailPointer];
     likesCountElement.textContent = likes;
-    commentsCountElement.textContent = comments.length;
     bigPictureImgElement.src = url;
     socialCaptionElement.textContent = description;
-    const commentsFragment = document.createDocumentFragment();
-    comments.forEach((comment) => {
-      const socialCommentCopy = socialCommentElement.cloneNode(true);
-      socialCommentsElement.innerHTML = '';
-      socialCommentCopy.querySelector('.social__picture').src = comment.avatar;
-      socialCommentCopy.querySelector('.social__picture').alt = comment.name;
-      socialCommentCopy.querySelector('.social__text').textContent = comment.message;
-      commentsFragment.append(socialCommentCopy);
-    });
-    socialCommentsElement.append(commentsFragment);
+    const loadComments = (function() {
+      const commentsFragment = document.createDocumentFragment();
+      const COMMENT_BLOCK_SIZE = 5;
+      let firstComment = 0;
+      let lastComment = comments.length <= COMMENT_BLOCK_SIZE ? comments.length : COMMENT_BLOCK_SIZE;
+      return function() {
+        const visualComments = comments.slice(firstComment, lastComment);
+        visualComments.forEach((comment) => {
+          const socialCommentCopy = socialCommentElement.cloneNode(true);
+          socialCommentCopy.querySelector('.social__picture').src = comment.avatar;
+          socialCommentCopy.querySelector('.social__picture').alt = comment.name;
+          socialCommentCopy.querySelector('.social__text').textContent = comment.message;
+          commentsFragment.append(socialCommentCopy);
+        });
+        socialCommentsElement.append(commentsFragment);
+        commentsCountElement.textContent = `${socialCommentsElement.children.length} из ${comments.length} комментариев`;
+        firstComment += COMMENT_BLOCK_SIZE;
+        lastComment += COMMENT_BLOCK_SIZE;
+      };
+    })();
+    socialCommentsElement.innerHTML = '';
+    loadComments();
+    commentsLoaderElement.addEventListener('click', loadComments);
   };
 
   picturesElement.addEventListener('click', (evt) => {
-    if(evt.target.matches('.picture__img')) {
+    if(evt.target.closest('.picture')) {
       evt.preventDefault();
       onBibPictureOpen();
       onBigPictureRender(evt);
