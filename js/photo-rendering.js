@@ -11,6 +11,7 @@ const socialCommentsElement = bigPictureElement.querySelector('.social__comments
 const socialCommentElement = socialCommentsElement.querySelector('.social__comment');
 const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
 const commentsCountElement = bigPictureElement.querySelector('.social__comment-count');
+
 commentsCountElement.innerHTML = '';
 
 const renderBigPhoto = () => {
@@ -87,4 +88,4 @@ const renderBigPhoto = () => {
   });
 };
 
-export {renderBigPhoto};
+export {renderBigPhoto, bodyElement};
