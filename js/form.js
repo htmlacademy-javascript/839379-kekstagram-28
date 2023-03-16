@@ -20,6 +20,7 @@ const onEditBoxKeydown = (evt) => {
 const onImageEditBoxClose = () => {
   imageEditBoxElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
+  uploadFileElement.value = '';
   editBoxCancelElement.removeEventListener('click', () => {
     onImageEditBoxClose();
     document.removeEventListener('keydown', onEditBoxKeydown);
@@ -29,7 +30,6 @@ const onImageEditBoxClose = () => {
 const onImageEditBoxOpen = () => {
   imageEditBoxElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
-  uploadFileElement.value = '';
   document.addEventListener('keydown', onEditBoxKeydown);
   editBoxCancelElement.addEventListener('click', () => {
     onImageEditBoxClose();

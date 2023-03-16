@@ -27,6 +27,7 @@ const renderBigPhoto = () => {
   const onBigPictureClose = () => {
     bigPictureElement.classList.add('hidden');
     socialCommentsElement.innerHTML = '';
+    commentsLoaderElement.classList.remove('hidden');
     bodyElement.classList.remove('modal-open');
     document.removeEventListener('keydown', onBigPictureKeydown);
     pictureCancelElement.removeEventListener('click', () => {
@@ -68,7 +69,7 @@ const renderBigPhoto = () => {
         socialCommentsElement.append(commentsFragment);
         commentsCountElement.textContent = `${socialCommentsElement.children.length} из ${comments.length} комментариев`;
         if(socialCommentsElement.children.length === comments.length) {
-          commentsLoaderElement.style.visibility = 'hidden';
+          commentsLoaderElement.classList.add('hidden');
         }
         firstComment += COMMENT_BLOCK_SIZE;
         lastComment += COMMENT_BLOCK_SIZE;
