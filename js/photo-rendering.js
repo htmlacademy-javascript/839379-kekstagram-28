@@ -30,24 +30,19 @@ const renderBigPhoto = () => {
     commentsLoaderElement.classList.remove('hidden');
     bodyElement.classList.remove('modal-open');
     document.removeEventListener('keydown', onBigPictureKeydown);
-    pictureCancelElement.removeEventListener('click', () => {
-      onBigPictureClose();
-    });
+    pictureCancelElement.removeEventListener('click', onBigPictureClose);
   };
 
   const onBibPictureOpen = () => {
     bigPictureElement.classList.remove('hidden');
     bodyElement.classList.add('modal-open');
     document.addEventListener('keydown', onBigPictureKeydown);
-    pictureCancelElement.addEventListener('click', () => {
-      onBigPictureClose();
-    });
+    pictureCancelElement.addEventListener('click', onBigPictureClose);
   };
 
   const onBigPictureRender = (evt) => {
-    commentsLoaderElement.style.visibility = 'visible';
     const currentThumbnail = evt.target.closest('.picture');
-    const thumbnailPointer = currentThumbnail.id;
+    const thumbnailPointer = currentThumbnail.dataset.thumbnailId;
     const {url, description, likes, comments} = photoObjects[thumbnailPointer];
     likesCountElement.textContent = likes;
     bigPictureImgElement.src = url;
