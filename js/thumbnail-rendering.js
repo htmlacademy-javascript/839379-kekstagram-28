@@ -13,7 +13,7 @@ const renderThumbnails = () => {
 
   photoObjects.forEach(({url, likes, comments}, index)=> {
     const pictureElement = pictureTemplateElement.cloneNode(true);
-    pictureElement.id = index;
+    pictureElement.dataset.thumbnailId = index;
     pictureElement.querySelector('.picture__img').src = url;
     pictureElement.querySelector('.picture__likes').textContent = likes;
     pictureElement.querySelector('.picture__comments').textContent = comments.length;

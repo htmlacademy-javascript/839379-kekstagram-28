@@ -1,5 +1,3 @@
-import {uploadFormElement, hashtagsFieldElement, discriptionFieldElement} from './form.js';
-
 const HASHTAG_CRITERION = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_HASHTAG_COUNT = 5;
 const MAX_DISCRIPTION_COUNT = 140;
@@ -10,6 +8,10 @@ const ERROR_HASHTAG_MESSAGE = `- хэш-тег должен начинаться
 - хэш-теги разделяются пробелами;
 - один и тот же хэш-тег не может быть использован дважды;
 - нельзя указать больше пяти хэш-тегов`;
+
+const uploadFormElement = document.querySelector('.img-upload__form');
+const hashtagsFieldElement = uploadFormElement.querySelector('.text__hashtags');
+const discriptionFieldElement = uploadFormElement.querySelector('.text__description');
 
 const pristine = new Pristine(uploadFormElement, {
   classTo: 'img-upload__field-wrapper',
@@ -32,9 +34,11 @@ const validateDiscription = (value) => value.length <= MAX_DISCRIPTION_COUNT;
 
 pristine.addValidator(discriptionFieldElement, validateDiscription,'Длина не должна превышать 140 символов');
 
-uploadFormElement.addEventListener('submit', (evt) => {
+const onFormSubmit = (evt) => {
   const isValide = pristine.validate();
   if(!isValide) {
     evt.preventDefault();
   }
-});
+};
+
+export {onFormSubmit};
