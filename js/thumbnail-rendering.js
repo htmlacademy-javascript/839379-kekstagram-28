@@ -1,4 +1,4 @@
-import {createPhotoObjects} from './data.js';
+// import {createPhotoObjects} from './data.js';
 
 const pictureTemplateElement = document.querySelector('#picture')
   .content
@@ -6,14 +6,14 @@ const pictureTemplateElement = document.querySelector('#picture')
 
 const picturesElement = document.querySelector('.pictures');
 
-const photoObjects = createPhotoObjects();
+// const photoObjects = createPhotoObjects();
 
-const renderThumbnails = () => {
+const renderThumbnails = (photoObjects) => {
   const photoObjectsFragment = document.createDocumentFragment();
 
-  photoObjects.forEach(({url, likes, comments}, index)=> {
+  photoObjects.forEach(({id, url, likes, comments})=> {
     const pictureElement = pictureTemplateElement.cloneNode(true);
-    pictureElement.dataset.thumbnailId = index;
+    pictureElement.dataset.thumbnailId = id;
     pictureElement.querySelector('.picture__img').src = url;
     pictureElement.querySelector('.picture__likes').textContent = likes;
     pictureElement.querySelector('.picture__comments').textContent = comments.length;
@@ -23,4 +23,4 @@ const renderThumbnails = () => {
   picturesElement.append(photoObjectsFragment);
 };
 
-export {picturesElement, photoObjects, renderThumbnails};
+export {picturesElement, renderThumbnails};
