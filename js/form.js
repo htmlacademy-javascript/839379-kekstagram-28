@@ -1,76 +1,98 @@
 import {isEscapeKey} from './util.js';
-import {bodyElement} from './photo-rendering.js';
-import {onPreviewCreateEffect} from './effect-slider.js';
-import {onPictureDecrement, onPictureIncrement} from './foto-transform.js';
+import {sendData} from './api.js';
+import {uploadFormElement} from './photo-modal.js';
+import {pristine} from './validation.js';
 
-const uploadFieldElement = document.querySelector('.img-upload');
-const imageEditBoxElement = uploadFieldElement.querySelector('.img-upload__overlay');
-const uploadFileElement = uploadFieldElement.querySelector('#upload-file');
-const editBoxCancelElement = uploadFieldElement.querySelector('.img-upload__cancel');
-const hashtagsFieldElement = uploadFieldElement.querySelector('.text__hashtags');
-const discriptionFieldElement = uploadFieldElement.querySelector('.text__description');
-const zoomValueElement = uploadFieldElement.querySelector('.scale__control--value');
-const imagePreviewElement = uploadFieldElement.querySelector('.img-upload__preview img');
-const sliderContainerElement = uploadFieldElement.querySelector('.img-upload__effect-level');
-const effectsListElement = uploadFieldElement.querySelector('.effects__list');
-const zoomDownElement = uploadFieldElement.querySelector('.scale__control--smaller');
-const zoomUpElement = uploadFieldElement.querySelector('.scale__control--bigger');
-const defaultEffectElement = uploadFieldElement.querySelector('#effect-none');
+const SubmitButtonText = {
+  IDLE: 'Сохранить',
+  SENDING: 'Сохраняю...'
+};
 
-const onEditBoxKeydown = (evt) => {
+const submitButtonElement = uploadFormElement.querySelector('.img-upload__submit');
+
+const errorTemplateElement = document.querySelector('#error')
+  .content
+  .querySelector('.error');
+
+const successTemplateElement = document.querySelector('#success')
+  .content
+  .querySelector('.success');
+
+
+const successMessage = successTemplateElement.cloneNode(true);
+const errorMessage = errorTemplateElement.cloneNode(true);
+
+// Ниже применение функций-деклараций с целью получения всплытия
+function onErrorKeydown (evt) {
   if(isEscapeKey(evt)) {
     evt.preventDefault();
-    imageEditBoxElement.classList.add('hidden');
-    bodyElement.classList.remove('modal-open');
-    uploadFileElement.value = '';
-    hashtagsFieldElement.value = '';
-    discriptionFieldElement.value = '';
+    errorMessage.remove();
   }
+  document.removeEventListener('keydown', onErrorKeydown);
+  document.removeEventListener('click', onErrorClick);
+}
+
+function onErrorClick (evt) {
+  if(!evt.target.closest('.error__inner') || evt.target.matches('.error__button')) {
+    errorMessage.remove();
+  }
+  document.removeEventListener('click', onErrorClick);
+  document.removeEventListener('keydown', onErrorKeydown);
+}
+
+const showErrorMessage = () => {
+  document.querySelector('body').append(errorMessage);
+  document.addEventListener('click', onErrorClick);
+  document.addEventListener('keydown', onErrorKeydown);
 };
 
-const onTextAreaKeydownLock = (evt) => {
-  evt.stopPropagation();
+function onSuccessKeydown (evt) {
+  if(isEscapeKey(evt)) {
+    evt.preventDefault();
+    successMessage.remove();
+  }
+  document.removeEventListener('keydown', onSuccessKeydown);
+  document.removeEventListener('click', onSuccessClick);
+}
+
+function onSuccessClick (evt) {
+  if(!evt.target.closest('.success__inner') || evt.target.matches('.success__button')) {
+    successMessage.remove();
+  }
+  document.removeEventListener('click', onSuccessClick);
+  document.removeEventListener('keydown', onSuccessKeydown);
+}
+
+const showSuccessMessage = () => {
+  document.querySelector('body').append(successMessage);
+  document.addEventListener('click', onSuccessClick);
+  document.addEventListener('keydown', onSuccessKeydown);
 };
 
-const onImageEditBoxClose = () => {
-  imageEditBoxElement.classList.add('hidden');
-  bodyElement.classList.remove('modal-open');
-  uploadFileElement.value = '';
-  hashtagsFieldElement.value = '';
-  discriptionFieldElement.value = '';
-  document.removeEventListener('keydown', onEditBoxKeydown);
-  editBoxCancelElement.removeEventListener('click', onImageEditBoxClose);
-  hashtagsFieldElement.removeEventListener('keydown', onTextAreaKeydownLock);
-  discriptionFieldElement.removeEventListener('keydown', onTextAreaKeydownLock);
-  effectsListElement.removeEventListener('change', onPreviewCreateEffect);
-  zoomDownElement.removeEventListener('click', onPictureDecrement);
-  zoomUpElement.removeEventListener('click', onPictureIncrement);
+const blockSubmitButton = () => {
+  submitButtonElement.disabled = true;
+  submitButtonElement.textContent = SubmitButtonText.SENDING;
 };
 
-const onImageEditBoxOpen = () => {
-  imageEditBoxElement.classList.remove('hidden');
-  bodyElement.classList.add('modal-open');
-  zoomValueElement.value = '100%';
-  sliderContainerElement.style.display = 'none';
-  imagePreviewElement.style.filter = 'none';
-  imagePreviewElement.style.transform = 'scale(1)';
-  imagePreviewElement.dataset.scaleValue = '1';
-  defaultEffectElement.checked = true;
-  document.addEventListener('keydown', onEditBoxKeydown);
-  editBoxCancelElement.addEventListener('click', onImageEditBoxClose);
-  hashtagsFieldElement.addEventListener('keydown', onTextAreaKeydownLock);
-  discriptionFieldElement.addEventListener('keydown', onTextAreaKeydownLock);
-  effectsListElement.addEventListener('change', onPreviewCreateEffect);
-  zoomDownElement.addEventListener('click', onPictureDecrement);
-  zoomUpElement.addEventListener('click', onPictureIncrement);
+const unblockSubmitButton = () => {
+  submitButtonElement.disabled = false;
+  submitButtonElement.textContent = SubmitButtonText.IDLE;
 };
 
-uploadFileElement.addEventListener('change', () => {
-  onImageEditBoxOpen();
-});
+const onFormSubmit = (onSuccess) => {
+  uploadFormElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
 
-
-export {
-  hashtagsFieldElement, discriptionFieldElement, zoomValueElement,
-  imagePreviewElement,sliderContainerElement, onImageEditBoxClose,
+    const isValide = pristine.validate();
+    if(isValide) {
+      blockSubmitButton();
+      sendData(new FormData(evt.target))
+        .then(onSuccess)
+        .then(showSuccessMessage)
+        .catch(showErrorMessage)
+        .finally(unblockSubmitButton);
+    }
+  });
 };
+
+export {onFormSubmit};
