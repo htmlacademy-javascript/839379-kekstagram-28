@@ -1,4 +1,4 @@
-import {zoomValueElement, imagePreviewElement} from './form.js';
+import {zoomValueElement, imagePreviewElement} from './photo-modal.js';
 
 
 const onPictureDecrement = () => {

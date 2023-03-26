@@ -1,5 +1,6 @@
 import {isEscapeKey} from './util.js';
-import {picturesElement, photoObjects} from './thumbnail-rendering.js';
+import {picturesElement} from './thumbnail-rendering.js';
+
 
 const bodyElement = document.querySelector('body');
 const bigPictureElement = document.querySelector('.big-picture');
@@ -14,7 +15,7 @@ const commentsCountElement = bigPictureElement.querySelector('.social__comment-c
 
 commentsCountElement.innerHTML = '';
 
-const renderBigPhoto = () => {
+const renderBigPhoto = (photoObjects) => {
   const onBigPictureKeydown = (evt) => {
     if(isEscapeKey(evt)) {
       evt.preventDefault();
@@ -39,11 +40,11 @@ const renderBigPhoto = () => {
     document.addEventListener('keydown', onBigPictureKeydown);
     pictureCancelElement.addEventListener('click', onBigPictureClose);
   };
-
   const onBigPictureRender = (evt) => {
     const currentThumbnail = evt.target.closest('.picture');
     const thumbnailPointer = currentThumbnail.dataset.thumbnailId;
-    const {url, description, likes, comments} = photoObjects[thumbnailPointer];
+    const currentPhotoObject = photoObjects.find((photo) => photo.id === +thumbnailPointer);
+    const {url, description, likes, comments} = currentPhotoObject;
     likesCountElement.textContent = likes;
     bigPictureImgElement.src = url;
     socialCaptionElement.textContent = description;

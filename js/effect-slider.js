@@ -1,4 +1,4 @@
-import {imagePreviewElement, sliderContainerElement} from './form.js';
+import {imagePreviewElement, sliderContainerElement} from './photo-modal.js';
 
 const effectSliderElement = document.querySelector('.effect-level__slider');
 const effectLevelElement = document.querySelector('.effect-level__value');
