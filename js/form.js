@@ -70,12 +70,12 @@ const showSuccessMessage = () => {
   document.addEventListener('keydown', onSuccessKeydown);
 };
 
-const blockSubmitButton = () => {
+const lockSubmitButton = () => {
   submitButtonElement.disabled = true;
   submitButtonElement.textContent = SubmitButtonText.SENDING;
 };
 
-const unblockSubmitButton = () => {
+const unlockSubmitButton = () => {
   submitButtonElement.disabled = false;
   submitButtonElement.textContent = SubmitButtonText.IDLE;
 };
@@ -86,12 +86,12 @@ const onFormSubmit = (onSuccess) => {
 
     const isValide = pristine.validate();
     if(isValide) {
-      blockSubmitButton();
+      lockSubmitButton();
       sendData(new FormData(evt.target))
         .then(onSuccess)
         .then(showSuccessMessage)
         .catch(showErrorMessage)
-        .finally(unblockSubmitButton);
+        .finally(unlockSubmitButton);
     }
   });
 };

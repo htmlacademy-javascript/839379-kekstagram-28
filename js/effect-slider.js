@@ -24,7 +24,7 @@ noUiSlider.create(effectSliderElement, {
 });
 
 const onPreviewCreateEffect = (evt) => {
-  if(evt.target.matches('.effects__radio')) {
+  if(evt.target.closest('.effects__item')) {
     const currentEffect = Effects[evt.target.value];
     const otherEffects = Object.values(Effects).filter((value) => value !== currentEffect);
     imagePreviewElement.classList.add(currentEffect);

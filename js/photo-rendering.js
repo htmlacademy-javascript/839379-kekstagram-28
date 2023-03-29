@@ -1,7 +1,8 @@
 import {isEscapeKey} from './util.js';
 import {picturesElement} from './thumbnail-rendering.js';
 
-
+const COMMENTS_BLOCK_SIZE = 5;
+const MIN_COMMENTS_COUNT = 0;
 const bodyElement = document.querySelector('body');
 const bigPictureElement = document.querySelector('.big-picture');
 const pictureCancelElement = bigPictureElement.querySelector('#picture-cancel');
@@ -51,9 +52,8 @@ const renderBigPhoto = (photoObjects) => {
     socialCaptionElement.textContent = description;
     const loadComments = (function() {
       const commentsFragment = document.createDocumentFragment();
-      const COMMENT_BLOCK_SIZE = 5;
-      let firstComment = 0;
-      let lastComment = comments.length <= COMMENT_BLOCK_SIZE ? comments.length : COMMENT_BLOCK_SIZE;
+      let firstComment = MIN_COMMENTS_COUNT;
+      let lastComment = comments.length <= COMMENTS_BLOCK_SIZE ? comments.length : COMMENTS_BLOCK_SIZE;
       return function() {
         const visualComments = comments.slice(firstComment, lastComment);
         visualComments.forEach((comment) => {
@@ -69,8 +69,8 @@ const renderBigPhoto = (photoObjects) => {
         if(commentsElement.length === comments.length) {
           commentsLoaderElement.classList.add('hidden');
         }
-        firstComment += COMMENT_BLOCK_SIZE;
-        lastComment += COMMENT_BLOCK_SIZE;
+        firstComment += COMMENTS_BLOCK_SIZE;
+        lastComment += COMMENTS_BLOCK_SIZE;
       };
     })();
     commentsBoxElement.innerHTML = '';
