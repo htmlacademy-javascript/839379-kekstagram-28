@@ -1,5 +1,7 @@
 const ALERT_SHOW_TIME = 5000;
 
+const getRandomNumber = () => Math.random() - 0.5;
+
 // функция-генератор случайных уникальных чисел
 const getRandomInteger = (min, max) => {
   const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
@@ -52,4 +54,13 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {getRandomInteger, getRandomArrayElement, createUniqueInteger, isEscapeKey, showAlert};
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+export {getRandomNumber, getRandomInteger, getRandomArrayElement,
+  createUniqueInteger, isEscapeKey, showAlert, debounce};

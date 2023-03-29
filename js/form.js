@@ -22,22 +22,23 @@ const successTemplateElement = document.querySelector('#success')
 const successMessage = successTemplateElement.cloneNode(true);
 const errorMessage = errorTemplateElement.cloneNode(true);
 
-// Ниже применение функций-деклараций с целью получения всплытия
+// Ниже применение Function Declaration с целью получения поднятия
 function onErrorKeydown (evt) {
   if(isEscapeKey(evt)) {
+    evt.stopPropagation();
     evt.preventDefault();
     errorMessage.remove();
+    document.removeEventListener('keydown', onErrorKeydown);
+    document.removeEventListener('click', onErrorClick);
   }
-  document.removeEventListener('keydown', onErrorKeydown);
-  document.removeEventListener('click', onErrorClick);
 }
 
 function onErrorClick (evt) {
   if(!evt.target.closest('.error__inner') || evt.target.matches('.error__button')) {
     errorMessage.remove();
+    document.removeEventListener('click', onErrorClick);
+    document.removeEventListener('keydown', onErrorKeydown);
   }
-  document.removeEventListener('click', onErrorClick);
-  document.removeEventListener('keydown', onErrorKeydown);
 }
 
 const showErrorMessage = () => {
@@ -58,9 +59,9 @@ function onSuccessKeydown (evt) {
 function onSuccessClick (evt) {
   if(!evt.target.closest('.success__inner') || evt.target.matches('.success__button')) {
     successMessage.remove();
+    document.removeEventListener('click', onSuccessClick);
+    document.removeEventListener('keydown', onSuccessKeydown);
   }
-  document.removeEventListener('click', onSuccessClick);
-  document.removeEventListener('keydown', onSuccessKeydown);
 }
 
 const showSuccessMessage = () => {
