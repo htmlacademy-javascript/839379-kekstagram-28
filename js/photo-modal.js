@@ -24,22 +24,23 @@ const onTextAreaKeydownLock = (evt) => {
   evt.stopPropagation();
 };
 
-const onEditBoxKeydown = (evt) => {
+function onEditBoxKeydown (evt) {
   if(isEscapeKey(evt)) {
     evt.preventDefault();
     imageEditBoxElement.classList.add('hidden');
     bodyElement.classList.remove('modal-open');
     uploadFormElement.reset();
     window.removeEventListener('keydown', onEditBoxKeydown);
+    editBoxCancelElement.removeEventListener('click', onImageEditBoxClose);
     hashtagsFieldElement.removeEventListener('keydown', onTextAreaKeydownLock);
     discriptionFieldElement.removeEventListener('keydown', onTextAreaKeydownLock);
     effectsListElement.removeEventListener('change', onPreviewCreateEffect);
     zoomDownElement.removeEventListener('click', onPictureDecrement);
     zoomUpElement.removeEventListener('click', onPictureIncrement);
   }
-};
+}
 
-const onImageEditBoxClose = () => {
+function onImageEditBoxClose () {
   imageEditBoxElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   uploadFormElement.reset();
@@ -50,7 +51,7 @@ const onImageEditBoxClose = () => {
   effectsListElement.removeEventListener('change', onPreviewCreateEffect);
   zoomDownElement.removeEventListener('click', onPictureDecrement);
   zoomUpElement.removeEventListener('click', onPictureIncrement);
-};
+}
 
 const onImageEditBoxOpen = () => {
   imageEditBoxElement.classList.remove('hidden');

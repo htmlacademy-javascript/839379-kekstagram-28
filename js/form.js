@@ -22,7 +22,6 @@ const successTemplateElement = document.querySelector('#success')
 const successMessage = successTemplateElement.cloneNode(true);
 const errorMessage = errorTemplateElement.cloneNode(true);
 
-// Ниже применение Function Declaration с целью получения поднятия
 function onErrorKeydown (evt) {
   if(isEscapeKey(evt)) {
     evt.stopPropagation();
@@ -80,7 +79,7 @@ const unlockSubmitButton = () => {
   submitButtonElement.textContent = SubmitButtonText.IDLE;
 };
 
-const onFormSubmit = (onSuccess) => {
+const setFormSubmit = (onSuccess) => {
   uploadFormElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
@@ -96,4 +95,4 @@ const onFormSubmit = (onSuccess) => {
   });
 };
 
-export {onFormSubmit};
+export {setFormSubmit};
