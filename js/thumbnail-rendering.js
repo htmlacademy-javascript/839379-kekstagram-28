@@ -1,5 +1,3 @@
-import {onBibPictureOpen, renderBigPhoto} from './photo-rendering.js';
-
 const pictureTemplateElement = document.querySelector('#picture')
   .content
   .querySelector('.picture');
@@ -7,6 +5,8 @@ const pictureTemplateElement = document.querySelector('#picture')
 const picturesElement = document.querySelector('.pictures');
 
 const renderThumbnails = (photoObjects) => {
+  const thumbnailsElement = document.querySelectorAll('.picture');
+  thumbnailsElement.forEach((thumbnail) => thumbnail.remove());
   const photoObjectsFragment = document.createDocumentFragment();
   photoObjects.forEach(({id, url, likes, comments})=> {
     const pictureElement = pictureTemplateElement.cloneNode(true);
@@ -16,16 +16,7 @@ const renderThumbnails = (photoObjects) => {
     pictureElement.querySelector('.picture__comments').textContent = comments.length;
     photoObjectsFragment.append(pictureElement);
   });
-  const thumbnailsElement = document.querySelectorAll('.picture');
-  thumbnailsElement.forEach((thumbnail) => thumbnail.remove());
   picturesElement.append(photoObjectsFragment);
-  picturesElement.addEventListener('click', (evt) => {
-    if(evt.target.closest('.picture')) {
-      evt.preventDefault();
-      onBibPictureOpen();
-      renderBigPhoto(evt, photoObjects);
-    }
-  });
 };
 
 export {picturesElement, renderThumbnails};

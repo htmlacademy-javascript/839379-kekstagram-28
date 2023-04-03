@@ -1,6 +1,6 @@
 import {zoomValueElement, imagePreviewElement} from './photo-modal.js';
 
-const MIN_ZOOM = 0;
+const MIN_ZOOM = 25;
 const MAX_ZOOM = 100;
 const ZOOM_STEP = 25;
 const SCALE_STEP = 0.25;
