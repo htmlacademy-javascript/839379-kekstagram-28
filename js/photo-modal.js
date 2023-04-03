@@ -3,7 +3,7 @@ import {bodyElement} from './photo-rendering.js';
 import {onPreviewCreateEffect} from './effect-slider.js';
 import {onPictureDecrement, onPictureIncrement} from './foto-transform.js';
 
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+const EXTENSIONS = ['jpg', 'jpeg', 'png'];
 const START_VALUE = '100%';
 const START_WRAP = 'none';
 const START_SCALE = 'scale(1)';
@@ -71,7 +71,7 @@ uploadFileElement.addEventListener('change', () => {
   onEditBoxOpen();
   const file = uploadFileElement.files[0];
   const fileName = file.name.toLowerCase();
-  const isMatches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  const isMatches = EXTENSIONS.some((it) => fileName.endsWith(it));
   if(isMatches) {
     imagePreviewElement.src = URL.createObjectURL(file);
     effectsPrewiewElement.forEach((preview) => {

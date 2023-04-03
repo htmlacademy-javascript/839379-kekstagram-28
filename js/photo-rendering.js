@@ -20,7 +20,7 @@ let lastComment = 0;
 
 commentsCountElement.innerHTML = '';
 
-const loadComments = () => {
+const onCommentsLoad = () => {
   const commentsFragment = document.createDocumentFragment();
   const visualComments = newComments.slice(firstComment, lastComment);
   visualComments.forEach((comment) => {
@@ -54,7 +54,7 @@ function onBigPictureClose () {
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onBigPictureKeydown);
   pictureCancelElement.removeEventListener('click', onBigPictureClose);
-  commentsLoaderElement.removeEventListener('click', loadComments);
+  commentsLoaderElement.removeEventListener('click', onCommentsLoad);
 }
 
 const onBibPictureOpen = () => {
@@ -77,8 +77,8 @@ const renderPhotoCard = (photoObjects) => {
     newComments = [...comments];
     firstComment = MIN_COMMENTS_COUNT;
     lastComment = newComments.length <= COMMENTS_BLOCK_SIZE ? newComments.length : COMMENTS_BLOCK_SIZE;
-    loadComments();
-    commentsLoaderElement.addEventListener('click', loadComments);
+    onCommentsLoad();
+    commentsLoaderElement.addEventListener('click', onCommentsLoad);
   };
 
   picturesElement.addEventListener('click', (evt) => {
