@@ -13,6 +13,7 @@ const commentsBoxElement = bigPictureElement.querySelector('.social__comments');
 const commentElement = commentsBoxElement.querySelector('.social__comment');
 const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
 const commentsCountElement = bigPictureElement.querySelector('.social__comment-count');
+
 let newComments = [];
 let firstComment = 0;
 let lastComment = 0;
