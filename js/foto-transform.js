@@ -1,12 +1,16 @@
 import {zoomValueElement, imagePreviewElement} from './photo-modal.js';
 
+const MIN_ZOOM = 25;
+const MAX_ZOOM = 100;
+const ZOOM_STEP = 25;
+const SCALE_STEP = 0.25;
 
 const onPictureDecrement = () => {
   let zoomValue = parseInt(zoomValueElement.value, 10);
   let scaleValue = +imagePreviewElement.dataset.scaleValue;
-  if(zoomValue > 0) {
-    zoomValue -= 25;
-    scaleValue -= 0.25;
+  if(zoomValue > MIN_ZOOM) {
+    zoomValue -= ZOOM_STEP;
+    scaleValue -= SCALE_STEP;
     zoomValueElement.value = `${zoomValue}%`;
     imagePreviewElement.dataset.scaleValue = `${scaleValue}`;
     imagePreviewElement.style.transform = `scale(${scaleValue})`;
@@ -16,9 +20,9 @@ const onPictureDecrement = () => {
 const onPictureIncrement = () => {
   let zoomValue = parseInt(zoomValueElement.value, 10);
   let scaleValue = +imagePreviewElement.dataset.scaleValue;
-  if(zoomValue < 100) {
-    zoomValue += 25;
-    scaleValue += 0.25;
+  if(zoomValue < MAX_ZOOM) {
+    zoomValue += ZOOM_STEP;
+    scaleValue += SCALE_STEP;
     zoomValueElement.value = `${zoomValue}%`;
     imagePreviewElement.dataset.scaleValue = `${scaleValue}`;
     imagePreviewElement.style.transform = `scale(${scaleValue})`;

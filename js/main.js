@@ -1,17 +1,18 @@
 import {renderThumbnails} from './thumbnail-rendering.js';
-import {renderBigPhoto} from './photo-rendering.js';
-import {onImageEditBoxClose} from './photo-modal.js';
-import {onFormSubmit} from './form.js';
+import {onEditBoxClose} from './photo-modal.js';
+import {setFormSubmit} from './form.js';
 import {getData} from './api.js';
 import {showAlert} from './util.js';
+import {filterThumbnails, sortThumbnails} from './thumbnail-filter.js';
+import {debounce} from './util.js';
+import {renderPhotoCard} from './photo-rendering.js';
 
 getData()
   .then((photos) => {
-    renderThumbnails(photos);
-    renderBigPhoto(photos);
+    filterThumbnails(photos, debounce(renderThumbnails));
+    renderThumbnails(sortThumbnails());
+    renderPhotoCard(photos);
   })
   .catch((err) => showAlert(err.message));
-//--------------------------------
 
-onFormSubmit(onImageEditBoxClose);
-
+setFormSubmit(onEditBoxClose);

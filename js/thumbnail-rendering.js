@@ -1,16 +1,13 @@
-// import {createPhotoObjects} from './data.js';
-
 const pictureTemplateElement = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
 const picturesElement = document.querySelector('.pictures');
 
-// const photoObjects = createPhotoObjects();
-
 const renderThumbnails = (photoObjects) => {
+  const thumbnailsElement = document.querySelectorAll('.picture');
+  thumbnailsElement.forEach((thumbnail) => thumbnail.remove());
   const photoObjectsFragment = document.createDocumentFragment();
-
   photoObjects.forEach(({id, url, likes, comments})=> {
     const pictureElement = pictureTemplateElement.cloneNode(true);
     pictureElement.dataset.thumbnailId = id;
@@ -19,7 +16,6 @@ const renderThumbnails = (photoObjects) => {
     pictureElement.querySelector('.picture__comments').textContent = comments.length;
     photoObjectsFragment.append(pictureElement);
   });
-
   picturesElement.append(photoObjectsFragment);
 };
 

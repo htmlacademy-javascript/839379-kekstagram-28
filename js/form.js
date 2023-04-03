@@ -22,22 +22,24 @@ const successTemplateElement = document.querySelector('#success')
 const successMessage = successTemplateElement.cloneNode(true);
 const errorMessage = errorTemplateElement.cloneNode(true);
 
-// Ниже применение функций-деклараций с целью получения всплытия
+const errorRemoveHendler = () => {
+  errorMessage.remove();
+  document.removeEventListener('click', onErrorClick);
+  document.removeEventListener('keydown', onErrorKeydown);
+};
+
 function onErrorKeydown (evt) {
   if(isEscapeKey(evt)) {
+    evt.stopPropagation();
     evt.preventDefault();
-    errorMessage.remove();
+    errorRemoveHendler();
   }
-  document.removeEventListener('keydown', onErrorKeydown);
-  document.removeEventListener('click', onErrorClick);
 }
 
 function onErrorClick (evt) {
   if(!evt.target.closest('.error__inner') || evt.target.matches('.error__button')) {
-    errorMessage.remove();
+    errorRemoveHendler();
   }
-  document.removeEventListener('click', onErrorClick);
-  document.removeEventListener('keydown', onErrorKeydown);
 }
 
 const showErrorMessage = () => {
@@ -46,21 +48,23 @@ const showErrorMessage = () => {
   document.addEventListener('keydown', onErrorKeydown);
 };
 
+const successRemoveHandler = () => {
+  successMessage.remove();
+  document.removeEventListener('keydown', onSuccessKeydown);
+  document.removeEventListener('click', onSuccessClick);
+};
+
 function onSuccessKeydown (evt) {
   if(isEscapeKey(evt)) {
     evt.preventDefault();
-    successMessage.remove();
+    successRemoveHandler();
   }
-  document.removeEventListener('keydown', onSuccessKeydown);
-  document.removeEventListener('click', onSuccessClick);
 }
 
 function onSuccessClick (evt) {
   if(!evt.target.closest('.success__inner') || evt.target.matches('.success__button')) {
-    successMessage.remove();
+    successRemoveHandler();
   }
-  document.removeEventListener('click', onSuccessClick);
-  document.removeEventListener('keydown', onSuccessKeydown);
 }
 
 const showSuccessMessage = () => {
@@ -69,30 +73,30 @@ const showSuccessMessage = () => {
   document.addEventListener('keydown', onSuccessKeydown);
 };
 
-const blockSubmitButton = () => {
+const lockSubmitButton = () => {
   submitButtonElement.disabled = true;
   submitButtonElement.textContent = SubmitButtonText.SENDING;
 };
 
-const unblockSubmitButton = () => {
+const unlockSubmitButton = () => {
   submitButtonElement.disabled = false;
   submitButtonElement.textContent = SubmitButtonText.IDLE;
 };
 
-const onFormSubmit = (onSuccess) => {
+const setFormSubmit = (onSuccess) => {
   uploadFormElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     const isValide = pristine.validate();
     if(isValide) {
-      blockSubmitButton();
+      lockSubmitButton();
       sendData(new FormData(evt.target))
         .then(onSuccess)
         .then(showSuccessMessage)
         .catch(showErrorMessage)
-        .finally(unblockSubmitButton);
+        .finally(unlockSubmitButton);
     }
   });
 };
 
-export {onFormSubmit};
+export {setFormSubmit};
