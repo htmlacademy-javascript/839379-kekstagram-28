@@ -20,11 +20,11 @@ const pristine = new Pristine(uploadFormElement, {
 const validateHashtags = (value) => {
   const hashtags = value.trim().split(' ');
   const uniqueHashtags = hashtags.filter((hashtag, index) => hashtags.indexOf(hashtag) === index);
-  const arr = [];
+  const validators = [];
   hashtags.forEach((hashtag) => {
-    arr.push(HASHTAG_CRITERION.test(hashtag));
+    validators.push(HASHTAG_CRITERION.test(hashtag));
   });
-  return !arr.includes(false) && hashtags.length <= MAX_HASHTAG_COUNT && hashtags.length === uniqueHashtags.length || value === '';
+  return !validators.includes(false) && hashtags.length <= MAX_HASHTAG_COUNT && hashtags.length === uniqueHashtags.length || value === '';
 };
 
 pristine.addValidator(hashtagsFieldElement, validateHashtags, ERROR_HASHTAG_MESSAGE);

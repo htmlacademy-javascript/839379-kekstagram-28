@@ -22,7 +22,7 @@ const successTemplateElement = document.querySelector('#success')
 const successMessage = successTemplateElement.cloneNode(true);
 const errorMessage = errorTemplateElement.cloneNode(true);
 
-const errorRemoveHendler = () => {
+const removeErrorHandler = () => {
   errorMessage.remove();
   document.removeEventListener('click', onErrorClick);
   document.removeEventListener('keydown', onErrorKeydown);
@@ -32,13 +32,13 @@ function onErrorKeydown (evt) {
   if(isEscapeKey(evt)) {
     evt.stopPropagation();
     evt.preventDefault();
-    errorRemoveHendler();
+    removeErrorHandler();
   }
 }
 
 function onErrorClick (evt) {
   if(!evt.target.closest('.error__inner') || evt.target.matches('.error__button')) {
-    errorRemoveHendler();
+    removeErrorHandler();
   }
 }
 
@@ -48,7 +48,7 @@ const showErrorMessage = () => {
   document.addEventListener('keydown', onErrorKeydown);
 };
 
-const successRemoveHandler = () => {
+const removeSuccessHandler = () => {
   successMessage.remove();
   document.removeEventListener('keydown', onSuccessKeydown);
   document.removeEventListener('click', onSuccessClick);
@@ -57,13 +57,13 @@ const successRemoveHandler = () => {
 function onSuccessKeydown (evt) {
   if(isEscapeKey(evt)) {
     evt.preventDefault();
-    successRemoveHandler();
+    removeSuccessHandler();
   }
 }
 
 function onSuccessClick (evt) {
   if(!evt.target.closest('.success__inner') || evt.target.matches('.success__button')) {
-    successRemoveHandler();
+    removeSuccessHandler();
   }
 }
 

@@ -11,7 +11,7 @@ const Method = {
 
 const ERROR_TEXT = 'Не удалось загрузить данные. Попробуйте обновить страницу';
 
-const dataLoad = (route, errorText = ERROR_TEXT, method = Method.GET, body = null) =>
+const loadData = (route, errorText = ERROR_TEXT, method = Method.GET, body = null) =>
   fetch(`${BASE_URL}${route}`, {method, body})
     .then((response) => {
       if (!response.ok) {
@@ -23,9 +23,9 @@ const dataLoad = (route, errorText = ERROR_TEXT, method = Method.GET, body = nul
       throw new Error(errorText);
     });
 
-const getData = () => dataLoad(Route.GET_DATA);
+const getData = () => loadData(Route.GET_DATA);
 
-const sendData = (body) => dataLoad(Route.SEND_DATA, undefined, Method.POST, body);
+const sendData = (body) => loadData(Route.SEND_DATA, undefined, Method.POST, body);
 
 
 export {getData, sendData};

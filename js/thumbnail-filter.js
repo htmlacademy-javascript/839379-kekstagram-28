@@ -13,7 +13,7 @@ const Filters = {
   DISCUSSED: 'filter-discussed',
 };
 
-let thumbnails = [];
+let miniatures = [];
 
 let currentFilter = Filters.DEFAULT;
 
@@ -34,11 +34,11 @@ const comparePhotos = (PhotoOne, PhotoTwo) => {
 const sortThumbnails = () => {
   switch (currentFilter) {
     case Filters.RANDOM:
-      return [...thumbnails].sort(() => getRandomNumber()).slice(MIN_THUMBNAILS_COUNT, MAX_THUMBNAILS_COUNT);
+      return [...miniatures].sort(() => getRandomNumber()).slice(MIN_THUMBNAILS_COUNT, MAX_THUMBNAILS_COUNT);
     case Filters.DISCUSSED:
-      return [...thumbnails].sort(comparePhotos);
+      return [...miniatures].sort(comparePhotos);
     default:
-      return [...thumbnails];
+      return [...miniatures];
   }
 };
 
@@ -60,7 +60,7 @@ const onFilterClick = (cb) => {
 
 const filterThumbnails = (photos, cb) => {
   filterElement.classList.remove(FILTER_INACTIVE);
-  thumbnails = [...photos];
+  miniatures = [...photos];
   onFilterClick(cb);
 };
 
